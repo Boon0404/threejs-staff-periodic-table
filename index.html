@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Google Login Demo</title>
+
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+  <div class="card">
+    <h2>Google Login</h2>
+
+
+    <div id="g_id_onload"
+         data-client_id="6393076314-vq65g6d93hvceoi9piqkus6rf9tf7u7i.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+
+    <div class="g_id_signin"></div>
+
+
+    <div id="user-info"></div>
+  </div>
+
+  <script>
+  function handleCredentialResponse(response) {
+    const data = parseJwt(response.credential);
+    localStorage.setItem("user", JSON.stringify({
+      name: data.name,
+      email: data.email,
+      picture: data.picture
+    }));
+
+    window.location.href = "threejs.html";
+  }
+
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
+  }
+</script>
+
+
+</body>
+</html>
